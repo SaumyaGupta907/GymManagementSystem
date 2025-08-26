@@ -1,0 +1,115 @@
+﻿Queries list
+
+
+-- User Login
+SELECT * FROM gymManagement.user WHERE username = ? AND password = ?
+
+
+-- Get User Member Profile
+SELECT * FROM gymManagement.member WHERE member_id = ?
+
+
+-- Get All Trainers
+SELECT * FROM gymManagement.trainer
+
+
+-- Get All Members
+SELECT * FROM gymManagement.member
+
+
+-- Get All Members with Membership Plan Details for Admin
+SELECT * FROM gymManagement.member m LEFT JOIN gymManagement.membership_plan mp ON m.membership_plan_id = mp.membership_plan_id
+
+
+-- Get Membership Plan Details for a User
+SELECT * FROM gymManagement.member m LEFT JOIN gymManagement.membership_plan mp ON m.membership_plan_id = mp.membership_plan_id WHERE m.member_id = ?
+
+
+-- Update User
+UPDATE gymManagement.user SET username = ?, password = ?, phone_no = ?, email = ? WHERE user_id = ?
+
+
+-- Add Trainer using Procedure
+CALL AddTrainer(?, ?, ?, ?, ?, ?, ?)
+
+
+-- User Registration using Procedure
+CALL AddMember(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+
+
+-- Check If Email Exists
+SELECT * FROM gymManagement.user WHERE email = ?
+
+
+-- Check If Username Exists
+SELECT * FROM gymManagement.user WHERE username = ?
+
+
+-- Feedback
+SELECT * FROM gymManagement.feedback f JOIN gymManagement.member m ON m.member_id = f.member_id
+
+
+-- All Workouts
+SELECT * FROM gymManagement.workout_class_instance w JOIN gymManagement.trainer t ON t.trainer_id = w.trainer_id JOIN gymManagement.workoutclass_uses_gymequipment wg ON wg.workout_class_id = w.workout_class_id JOIN gymManagement.gym_equipment g ON g.equipment_id = wg.equipment_id
+
+
+-- All Workouts for Trainer
+SELECT * FROM gymManagement.workout_class_instance w JOIN gymManagement.trainer t ON t.trainer_id = w.trainer_id WHERE t.trainer_id = ?
+
+
+-- Single User Data
+SELECT * FROM gymManagement.member m JOIN gymManagement.membership_plan mp ON mp.membership_plan_id = m.membership_plan_id WHERE member_id = ?
+
+
+-- Get Users Attending Class
+SELECT m.* FROM attendance a JOIN member m ON m.member_id = a.member_id JOIN workout_class_instance w ON w.workout_class_instance_id = a.workout_class_instance_id JOIN trainer t ON t.trainer_id = w.trainer_id WHERE w.workout_class_instance_id = ?
+
+
+-- Add Attendance
+INSERT INTO gymManagement.attendance SET ?
+
+
+-- Add Invoice using Procedure
+CALL GenerateInvoice(?, ?, ?)
+
+
+-- Add Equipment
+INSERT INTO gymManagement.gym_equipment SET ?
+
+
+-- Add Class
+INSERT INTO workout_class (class_name) VALUES (?);
+INSERT INTO workout_class_instance (class_name, duration, timings, trainer_id, workout_class_id) VALUES (?, ?, ?, ?, ?);
+INSERT INTO workoutClass_uses_gymEquipment (workout_class_id, equipment_id) VALUES (?, ?);
+
+
+-- Add Package using Procedure
+CALL AddMembershipPlan(?, ?, ?, ?, ?)
+
+
+-- Store Attendance
+INSERT INTO gymManagement.Attendance SET ?
+
+
+-- Store Workout Plan
+INSERT INTO gymManagement.WorkoutPlan SET ?
+
+
+-- Update Package Details
+UPDATE gymManagement.member SET membership_plan_id=?, membership_status=?, dateOfRegistration=?, dateOfExpiry=? WHERE member_id=?
+
+
+-- Cancel Membership
+UPDATE gymManagement.member SET membership_status=? WHERE member_id=?
+
+
+-- Modify Class Schedule
+UPDATE gymManagement.ClassSchedule SET schedule=?, duration=?, capacity=? WHERE class_id=?
+
+
+-- Add Gym Equipment
+INSERT INTO gymManagement.GymEquipment SET ?
+
+
+-- Add Feedback
+INSERT INTO gymManagement.Feedback SET ?
